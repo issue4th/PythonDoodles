@@ -12,7 +12,7 @@ except:
 import matplotlib.pyplot as plt
 import numpy as np
 
-highest_number_to_test = 1000000
+highest_number_to_test = 10000000
 
 primes = []
 
@@ -28,7 +28,7 @@ def generate_primes_up_to(number):
         if is_prime(possiblePrime):
             primes.append(possiblePrime)
         
-        possiblePrime = int(backbone - 1)
+        possiblePrime = int(backbone + 1)
         if is_prime(possiblePrime):
             primes.append(possiblePrime)
 
@@ -41,7 +41,7 @@ def is_prime(possiblePrime):
     lastPossibleFactor = possiblePrime / 2 + 1
 
     for possibleDivisor in possibleDivisors:
-        if possibleDivisor < 1:
+        if possibleDivisor <= 1:
             continue
         if possibleDivisor > lastPossibleFactor:
             break
