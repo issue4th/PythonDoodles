@@ -12,37 +12,36 @@ except:
 import matplotlib.pyplot as plt
 import numpy as np
 
-highest_number_to_test = 10000000
-
-primes = []
+highest_number_to_test = 100000
 
 def generate_primes_up_to(number):
-    primes.append(1)
-    primes.append(2)
+    primes = []
     primes.append(3)
 
     loops = 0
     for backbone in range(6, number, 6):
         
         possiblePrime = int(backbone - 1)
-        if is_prime(possiblePrime):
+        if is_prime(possiblePrime, primes):
             primes.append(possiblePrime)
         
         possiblePrime = int(backbone + 1)
-        if is_prime(possiblePrime):
+        if is_prime(possiblePrime, primes):
             primes.append(possiblePrime)
 
         loops += 1
         if loops % 100 == 0:
             print(backbone, len(primes) / backbone)
 
-def is_prime(possiblePrime):
-    possibleDivisors = primes
+    primes.insert(0, 2)
+    primes.insert(0, 1)
+
+    return primes
+
+def is_prime(possiblePrime, possibleDivisors):
     lastPossibleFactor = possiblePrime / 2 + 1
 
     for possibleDivisor in possibleDivisors:
-        if possibleDivisor <= 1:
-            continue
         if possibleDivisor > lastPossibleFactor:
             break
         if possiblePrime % possibleDivisor == 0:
@@ -50,14 +49,8 @@ def is_prime(possiblePrime):
 
     return True 
 
-def fn(number):
-    return np.sin(number)
-
-def fn2(number):
-    return is_prime(number)
-#        return number
- #   else:
-  #      return 0
+def fn(index):
+    return primes[int(index)]
 
 def map(func, listOfNumbers):
     result = []
@@ -65,11 +58,18 @@ def map(func, listOfNumbers):
         result.append(func(number))
     return result
 
-generate_primes_up_to(highest_number_to_test)
-x = np.linspace(0, highest_number_to_test, highest_number_to_test)
+def self_test():
+    checkPrimes = generate_primes_up_to(50)
+    if checkPrimes != [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]:
+        print("Broken!")
+        raise Exception("Self-test failed!")
 
-#plt.plot(x, map(fn, x))
-#plt.plot(x, map(fn2, x))
+self_test()
+primes = generate_primes_up_to(highest_number_to_test)
 
-#plt.show()
+x = np.linspace(0, len(primes)-1, len(primes))
+
+plt.plot(x, map(fn, x))
+
+plt.show()
 
