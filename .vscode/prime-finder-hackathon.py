@@ -41,7 +41,7 @@ def is_prime(possiblePrime):
     lastPossibleFactor = possiblePrime / 2 + 1
 
     for possibleDivisor in possibleDivisors:
-        if possibleDivisor < 2:
+        if possibleDivisor < 1:
             continue
         if possibleDivisor > lastPossibleFactor:
             break
